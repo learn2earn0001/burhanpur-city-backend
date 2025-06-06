@@ -5,7 +5,7 @@ const { createBussiness,getBussiness , updateBussiness ,deletedBuss} = require (
 
 const BussinessRouter = express.Router();
 
-BussinessRouter.post("/createBuss",authenticat,checkRole("admin"),createBussiness);
+BussinessRouter.post("/createBuss",createBussiness);
 BussinessRouter.get("/getBuss",getBussiness);
 BussinessRouter.put("/updateBuss",updateBussiness);
 BussinessRouter.delete("/deleteBuss",deletedBuss);
