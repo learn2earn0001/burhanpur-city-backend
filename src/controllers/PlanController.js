@@ -11,7 +11,8 @@ module.exports.createPlan = async (req, res) => {
   }
 };
 
-// Get all plans
+// Get all plans 
+
 module.exports.getAllPlans = async (req, res) => {
   try {
     const plans = await PlanModel.find();
