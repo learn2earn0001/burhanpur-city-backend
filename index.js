@@ -33,6 +33,7 @@ app.use('/api/category', categoryRoutes);
 app.use('/api/subcategory', subcategoryRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use ('/api/plan', planRoutes);
+// app.post("/api/plan/Webhook", express.raw({ type: 'application/json' }), planRoutes);
 // app.use('/api/advertisements', advertisementRoutes);
 
 
