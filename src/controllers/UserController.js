@@ -113,8 +113,12 @@ module.exports.adminLogin = async (req,res)=>{
 module.exports.getOneUser = async (req,res)=>{
     try {
         const id = req.userId;
-        const getUser = await UserModel.findById(id);
+        const getUser = await UserModel.findById(id).select('name address role email phone');
+        if (!getUser) {
+      return res.status(404).json(errorResponse(404, "User not found"));
+    }
         console.log(id,"one");
+        console.log(getUser,"2");
         res.status(200).json(successResponse(200,"Get One User Detail",getUser));
     } catch (error) {
         res.status(500).json(errorResponse(500,"Ivalid Credential"));
