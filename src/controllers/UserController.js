@@ -14,25 +14,41 @@ const JWT_EXPIRE = process.env.JWT_EXPIRE;
 
 const UserModel = require("../models/User");
 
-module.exports.createUser = async (req,res)=>{
-   try {
+module.exports.createUser = async (req, res) => {
+  try {
     const data = req.body;
-     const bcryptPassword = await bcrypt.hash(data.password,SALT_ROUNDS);
-     delete data.password;
-     if (!/^\d{10}$/.test(data.phone)) {
-         return res.status(400).json(errorResponse(400, "Invalid phone number. Must be 10 digits only."));
+
+    // Validate phone number
+    if (!/^\d{10}$/.test(data.phone)) {
+      return res.status(400).json(errorResponse(400, "Invalid phone number. Must be 10 digits only."));
     }
 
-     const newUser = await UserModel({...req.body,password:bcryptPassword});
-     newUser.save();
-     console.log(newUser);
-    //  .json(errorResponse(400, "User is already registered"));
-     res.status(200).json(successResponse(200,"User is Created Successfully",newUser));
-   } catch (error) {
+    // Check if user already exists by phone or email
+    const existingUser = await UserModel.findOne({
+      $or: [{ phone: data.phone }, { email: data.email }],
+    });
+
+    if (existingUser) {
+      return res.status(409).json(errorResponse(409, "User already registered", existingUser));
+    }
+
+    // Hash password
+    const bcryptPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
+    delete data.password;
+
+    // Create and save user
+    const newUser = new UserModel({ ...data, password: bcryptPassword });
+    await newUser.save();
+
+    console.log(newUser);
+
+    res.status(201).json(successResponse(201, "User is created successfully", newUser));
+  } catch (error) {
     console.log(error);
-    res.status(500).json(errorResponse(500,"User is not Created"));
-   }
+    res.status(500).json(errorResponse(500, "User is not created"));
+  }
 };
+
 
 module.exports.getAllUser = async (req,res)=>{
     try {
