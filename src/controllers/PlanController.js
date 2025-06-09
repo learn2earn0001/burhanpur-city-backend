@@ -4,7 +4,11 @@ const PlanModel = require('../models/Plan');
 // Create a new plan
 module.exports.createPlan = async (req, res) => {
   try {
-    const plan = await PlanModel.create(req.body);
+    // const plan = await PlanModel.create(req.body);
+    const planData = req.body;
+    const newPlan = new PlanModel(planData);
+    await newPlan.save();
+
     res.status(201).json(successResponse(201, 'Plan created successfully', plan));
   } catch (error) {
     res.status(500).json(errorResponse(500, 'Failed to create plan', error.message));
