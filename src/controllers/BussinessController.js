@@ -21,6 +21,7 @@ module.exports.createBussiness = async (req, res) => {
      { path: "User", select:"id"}
     );
 
+    
     res.status(200).json(successResponse(200,"Bussiness is added successfuly",newBussiness));
 
   } catch (error) {

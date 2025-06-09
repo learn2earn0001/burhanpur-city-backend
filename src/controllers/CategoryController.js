@@ -64,14 +64,14 @@ module.exports.deleteCategory = async(req,res)=>{
 };
 
 module.exports.searchCategory = async (req,res)=>{
-   const { query, isActive } = req.query;
+   const { name, isActive } = req.query;
 
   const filter = {};
 
-  if (query) {
+  if (name) {
     filter.$or = [
-      { name: { $regex: query, $options: 'i' } },
-      { description: { $regex: query, $options: 'i' } }
+      { name: { $regex: name, $options: 'i' } },
+      { description: { $regex: name, $options: 'i' } }
     ];
   }
 
@@ -88,8 +88,11 @@ module.exports.searchCategory = async (req,res)=>{
         success: true,
         message: 'No categories found matching the search criteria',
         data: []
+        
       });
     }
+       console.log("Received name in query:", name);
+
 
     // ✅ Agar mil gaya to
     return res.status(200).json({
@@ -97,6 +100,7 @@ module.exports.searchCategory = async (req,res)=>{
       message: 'Categories found',
       data: categories
     });
+
 
   } catch (error) {
     return res.status(500).json({
