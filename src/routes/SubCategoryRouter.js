@@ -1,5 +1,5 @@
 const express = require("express");
-const authenticateion = require("../middleware/authenticateion");
+const authentication = require("../middleware/authentication");
 
 const {
   createSubCat,
@@ -11,7 +11,7 @@ const {
 
 const subcategoryRoutes = express.Router();
 
-subcategoryRoutes.post("/createSubCategory", createSubCat);
+subcategoryRoutes.post("/createSubCategory",authentication, createSubCat);
 subcategoryRoutes.get("/getSubCategory/:categoryId", getSubCategoryOne);
 subcategoryRoutes.get("/getSubCategory", getSubCategoryAll);
 subcategoryRoutes.put("/updateSubCategory/:id", updateSubCategory);

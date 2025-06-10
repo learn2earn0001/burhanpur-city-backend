@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const connectDB = require('./src/config/database');
 const morgan = require("morgan");
+const serverless = require("serverless-http"); // ✅ required for Vercel
 
 
 const userRouter = require ('./src/routes/UserRouter');
@@ -18,6 +19,12 @@ const jobRoutes = require('./src/routes/JobRouter');
 
 dotenv.config();
 const app = express();
+
+// Instead of calling connectDB() globally
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 
 app.use(cors());
@@ -50,20 +57,22 @@ app.use((err, req, res, next) => {
 app.get("/", async (req, res) => {
     
       res.status(200).json({
-        success: "Hello from the server",
+        success: true,
         message: "Server is running perfectly",
       });
 
 });
 
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, async () => {
-  try {
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, async () => {
+//   try {
 
-    console.log({ message: `Server is listening on port ${PORT}` });
-    await connectDB;
-  } catch (error) {
-    console.log(error.message);
-  }
-});
+//     console.log({ message: `Server is listening on port ${PORT}` });
+//     await connectDB;
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// });
+
+module.exports = serverless(app);
