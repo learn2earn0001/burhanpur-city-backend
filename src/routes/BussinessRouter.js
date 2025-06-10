@@ -1,6 +1,6 @@
 const express = require ("express");
-const authenticat = require("../middleware/authentication");
-const {checkRole} = require("../middleware/authorization").default;
+const authentication = require("../middleware/authentication");
+const checkRole = require("../middleware/authorization")
 const { createBussiness,getBussiness , updateBussiness ,deletedBuss} = require ("../controllers/BussinessController");
 
 const BussinessRouter = express.Router();

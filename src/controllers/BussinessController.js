@@ -23,8 +23,8 @@ module.exports.createBussiness = async (req, res) => {
     });
 
     if (existingBusiness) {
-      return res.status(409).json(
-        errorResponse(409, "Business already exists in this subCategory", existingBusiness)
+      return res.status(404).json(
+        errorResponse(404, "Business already exists in this subCategory", existingBusiness)
       );
     }
 
@@ -39,8 +39,8 @@ module.exports.createBussiness = async (req, res) => {
       {path :"subCategory" , select:"id name"}
     ]);
 
-    return res.status(201).json(
-      successResponse(201, "Business added successfully", newBusiness)
+    return res.status(200).json(
+      successResponse(200, "Business added successfully", newBusiness)
     );
 
   } catch (error) {

@@ -20,7 +20,7 @@ module.exports.createUser = async (req, res) => {
 
     // Validate phone number
     if (!/^\d{10}$/.test(data.phone)) {
-      return res.status(400).json(errorResponse(400, "Invalid phone number. Must be 10 digits only."));
+      return res.status(404).json(errorResponse(404, "Invalid phone number. Must be 10 digits only."));
     }
 
     // Check if user already exists by phone or email
@@ -29,7 +29,7 @@ module.exports.createUser = async (req, res) => {
     });
 
     if (existingUser) {
-      return res.status(409).json(errorResponse(409, "User already registered", existingUser));
+      return res.status(404).json(errorResponse(404, "User already registered", existingUser));
     }
 
     // Hash password
@@ -42,10 +42,10 @@ module.exports.createUser = async (req, res) => {
 
     console.log(newUser);
 
-    res.status(201).json(successResponse(201, "User is created successfully", newUser));
+    res.status(200).json(successResponse(200, "User is created successfully", newUser));
   } catch (error) {
     console.log(error);
-    res.status(500).json(errorResponse(500, "User is not created"));
+    res.status(500).json(errorResponse(500, "User is not created",error));
   }
 };
 
@@ -54,9 +54,10 @@ module.exports.getAllUser = async (req,res)=>{
     try {
         const data = req.body;
         const userDetails = await UserModel.find();
+         console.error("Get All Users Error:", error);  // ✅ Add this line
         res.status(200).json(successResponse(200,"User Details is fetched",userDetails));
     } catch (error) {
-        res.status(500).json(errorResponse(500,"Details is not found"));
+        res.status(500).json(errorResponse(500,"Details is not found",error));
     }
 };
 
@@ -70,7 +71,7 @@ module.exports.updateUer = async (req,res)=>{
         })
         res.status(200).json(successResponse(200,"User is updated successfully",updatedUser));
     } catch (error) {
-        res.status(500).json(errorResponse(500,"User is not Updated"));
+        res.status(500).json(errorResponse(500,"User is not Updated",error));
     }
 };
 
@@ -80,7 +81,7 @@ module.exports.deleteUser = async (req,res)=>{
         const deletedUser = await UserModel.findByIdAndDelete(id);
         res.status(200).json(successResponse(200,"User is deleted successfully",deletedUser));
     } catch (error) {
-        res.status(500).json(errorResponse(500,"User is not deleted"));
+        res.status(500).json(errorResponse(500,"User is not deleted",error));
     }
 };
 
@@ -106,7 +107,7 @@ module.exports.adminLogin = async (req,res)=>{
        return res.status(200).json(successResponse(200,"Token is generated successfully",token));
 
     } catch (error) {
-        res.status(500).json(errorResponse(500,"User Login failed"));
+        res.status(500).json(errorResponse(500,"User Login failed",error));
     }
 };
 
@@ -121,6 +122,6 @@ module.exports.getOneUser = async (req,res)=>{
         console.log(getUser,"2");
         res.status(200).json(successResponse(200,"Get One User Detail",getUser));
     } catch (error) {
-        res.status(500).json(errorResponse(500,"Ivalid Credential"));
+        res.status(500).json(errorResponse(500,"Ivalid Credential",error));
     }
 }
