@@ -52,7 +52,7 @@ app.use((err, req, res, next) => {
 app.get("/", async (req, res) => {
     
       res.status(200).json({
-        success: true,
+        success:"Hello from server side",
         message: "Server is running perfectly",
       });
 
