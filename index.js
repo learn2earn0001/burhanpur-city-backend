@@ -20,12 +20,7 @@ const jobRoutes = require('./src/routes/JobRouter');
 dotenv.config();
 const app = express();
 
-// Instead of calling connectDB() globally
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
-
+connectDB();
 
 app.use(cors());
 app.use(express.json());
@@ -64,15 +59,15 @@ app.get("/", async (req, res) => {
 });
 
 
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, async () => {
-//   try {
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, async () => {
+  try {
 
-//     console.log({ message: `Server is listening on port ${PORT}` });
-//     await connectDB;
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// });
+    console.log({ message: `Server is listening on port ${PORT}` });
+    await connectDB;
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 module.exports = serverless(app);
