@@ -1,3 +1,4 @@
+
 const express = require ("express");
 const authentication = require ("../middleware/authentication");
 const checkRole = require("../middleware/authorization");
@@ -13,3 +14,4 @@ userRouter.post("/adminLogin",adminLogin);
 userRouter.get("/me",authentication,getOneUser); 
 
 module.exports = userRouter ;
+

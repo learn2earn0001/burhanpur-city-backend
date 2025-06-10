@@ -9,7 +9,7 @@ module.exports.createPlan = async (req, res) => {
     const newPlan = new PlanModel(planData);
     await newPlan.save();
 
-    res.status(201).json(successResponse(201, 'Plan created successfully', plan));
+    res.status(201).json(successResponse(201, 'Plan created successfully', newPlan));
   } catch (error) {
     res.status(500).json(errorResponse(500, 'Failed to create plan', error.message));
   }

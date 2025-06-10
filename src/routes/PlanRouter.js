@@ -1,20 +1,22 @@
 const express = require('express');
 const {createPlan, getAllPlans,getPlanById, updatePlan, deletePlan} = require('../controllers/PlanController');
+// const { createOrderForPlan, verifyPaymentAndActivatePlan } = require('../controllers/PlanPurchaseController');
+
 const planRoutes = express.Router();
 
-// Create
-planRoutes.post('/CreatePlan', createPlan);
 
-// Read all
-planRoutes.get('/GetAllPlans', getAllPlans);
+planRoutes.post('/CreatePlan', createPlan);// Create
 
-// Read one
-planRoutes.get('/GetPlanById/:id', getPlanById);
+planRoutes.get('/GetAllPlans', getAllPlans);// Read all
 
-// Update
-planRoutes.put('/UpdatePlan/:id', updatePlan);
+planRoutes.get('/GetPlanById/:id', getPlanById);// Read one
 
-// Delete
-planRoutes.delete('/DeletePlan/:id', deletePlan);
+planRoutes.put('/UpdatePlan/:id', updatePlan);// Update
+
+planRoutes.delete('/DeletePlan/:id', deletePlan);// Delete
+
+// planRoutes.post('/CreateOrder', createOrderForPlan);
+// planRoutes.post('/Webhook', verifyPaymentAndActivatePlan); // Make this public, no auth middleware
+
 
 module.exports = planRoutes;

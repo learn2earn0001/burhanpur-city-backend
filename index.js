@@ -5,7 +5,7 @@ const path = require('path');
 const connectDB = require('./src/config/database');
 const morgan = require("morgan");
 
-// Routes
+
 const userRouter = require ('./src/routes/UserRouter');
 const BussinessRouter = require("./src/routes/BussinessRouter");
 const categoryRoutes = require('./src/routes/CategoryRouter');
@@ -18,25 +18,26 @@ const jobRoutes = require('./src/routes/JobRouter');
 
 dotenv.config();
 const app = express();
-connectDB();
-// Middleware
+
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(morgan('dev'));
 
-// // Routes
+
 app.use("/api/Users",userRouter);
 app.use("/api/bussiness",BussinessRouter);
 app.use('/api/category', categoryRoutes);
 app.use('/api/subcategory', subcategoryRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use ('/api/plan', planRoutes);
+// app.post("/api/plan/Webhook", express.raw({ type: 'application/json' }), planRoutes);
 // app.use('/api/advertisements', advertisementRoutes);
 
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   console.error('Error:', err.stack);
   res.status(500).json({
@@ -57,6 +58,12 @@ app.get("/", async (req, res) => {
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, async () => {
+  try {
+
+    console.log({ message: `Server is listening on port ${PORT}` });
+    await connectDB;
+  } catch (error) {
+    console.log(error.message);
+  }
 });
