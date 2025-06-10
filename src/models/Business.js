@@ -17,7 +17,8 @@ const businessSchema = new mongoose.Schema({
     email: String,
     website: String
   },
-  images: [String],
+  images: [{ type: String }],   // URLs
+videos: [{ type: String }],
   socialLinks: {
     facebook: String,
     instagram: String,

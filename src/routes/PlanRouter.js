@@ -1,22 +1,26 @@
 const express = require('express');
-const {createPlan, getAllPlans,getPlanById, updatePlan, deletePlan} = require('../controllers/PlanController');
-// const { createOrderForPlan, verifyPaymentAndActivatePlan } = require('../controllers/PlanPurchaseController');
-
 const planRoutes = express.Router();
+const {
+  createPlan,
+  getAllPlans,
+  getPlanById,
+  updatePlan,
+  deletePlan,
+} = require('../controllers/plan.controller');
 
+// POST /api/plans
+planRoutes.post('/CreatePlan', createPlan);
 
-planRoutes.post('/CreatePlan', createPlan);// Create
+// GET /api/plans
+planRoutes.get('/GetAllPlans', getAllPlans);
 
-planRoutes.get('/GetAllPlans', getAllPlans);// Read all
+// GET /api/plans/:id
+planRoutes.get('/GetPlanById/:id', getPlanById);
 
-planRoutes.get('/GetPlanById/:id', getPlanById);// Read one
+// PUT /api/plans/:id
+planRoutes.put('/UpdatePlan/:id', updatePlan);
 
-planRoutes.put('/UpdatePlan/:id', updatePlan);// Update
-
-planRoutes.delete('/DeletePlan/:id', deletePlan);// Delete
-
-// planRoutes.post('/CreateOrder', createOrderForPlan);
-// planRoutes.post('/Webhook', verifyPaymentAndActivatePlan); // Make this public, no auth middleware
-
+// DELETE /api/plans/:id
+planRoutes.delete('/DeletePlan/:id', deletePlan);
 
 module.exports = planRoutes;
