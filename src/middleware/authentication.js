@@ -4,7 +4,10 @@ dotenv.config();
 const { errorResponse } = require("../helper/successAndError");
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const authenticate = async (req, res, next) => {
+
+const authentication = async (req, res, next) => {
+
+
   try {
     let token = req.header("Authorization");
     token = token && token.replace("Bearer ", "");
@@ -14,7 +17,11 @@ const authenticate = async (req, res, next) => {
     }
 
     const verifyToken = jwt.verify(token, JWT_SECRET);
-    req.userId = verifyToken.userId;
+
+    req.userId = verifyToken.userId; // ✅ Attach decoded token info to req
+    req.userRole = decoded.role;   // important
+
+
     console.log(verifyToken);
     next();
   } catch (error) {
@@ -23,4 +30,6 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-module.exports = authenticate;
+
+module.exports = authentication;
+

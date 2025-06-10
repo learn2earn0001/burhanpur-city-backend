@@ -39,7 +39,7 @@ module.exports.createSubCat = async (req, res) => {
     if (existOne) {
       return res
         .status(409)
-        .json(errorResponse(409, "Subcategory already exists under this category.", existOne));
+        .json(errorResponse(404, "Subcategory already exists under this category.", existOne));
     }
 
     // Create new subcategory
@@ -70,8 +70,8 @@ module.exports.createSubCat = async (req, res) => {
       select: "name description"
     });
 
-    res.status(201).json(successResponse(
-      201,
+    res.status(200).json(successResponse(
+      200,
       "Subcategory created successfully.",
       populatedSubCategory
     ));

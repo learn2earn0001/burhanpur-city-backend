@@ -19,5 +19,8 @@ function checkRole(...role) {
         );
     }
   };
-}
-module.exports = { checkRole };
+
+};
+
+module.exports = checkRole;
+
