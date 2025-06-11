@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-let isConnected = false;
+// let isConnected = false;
 
 const connectDB = mongoose
   .connect(process.env.MONGODB_URI)
