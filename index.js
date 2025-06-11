@@ -61,4 +61,4 @@ app.listen(PORT, async () => {
   }
 });
 
-module.exports = serverless(app);
+// module.exports = serverless(app);
