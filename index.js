@@ -18,8 +18,6 @@ const jobRoutes = require("./src/routes/JobRouter");
 dotenv.config();
 const app = express();
 
-connectDB();
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
