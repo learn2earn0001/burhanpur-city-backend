@@ -7,7 +7,9 @@ const { createBussiness,getBussiness , updateBussiness ,deletedBuss} = require (
 
 const BussinessRouter = express.Router();
 
-BussinessRouter.post("/createBuss", createBussiness);
+// Apply middlewares before createBussiness
+BussinessRouter.post("/createBuss", authenticate, checkUploadLimit, createBussiness);
+
 BussinessRouter.get("/getBuss", getBussiness);
 BussinessRouter.put("/updateBuss", updateBussiness);
 BussinessRouter.delete("/deleteBuss", deletedBuss);

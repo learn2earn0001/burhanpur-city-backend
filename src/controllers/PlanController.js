@@ -4,19 +4,14 @@ const PlanModel = require('../models/Plan');
 // Create a new plan
 module.exports.createPlan = async (req, res) => {
   try {
-    // const plan = await PlanModel.create(req.body);
-    const planData = req.body;
-    const newPlan = new PlanModel(planData);
-    await newPlan.save();
-
-    res.status(201).json(successResponse(201, 'Plan created successfully', newPlan));
+    const plan = await PlanModel.create(req.body);
+    res.status(201).json(successResponse(201, 'Plan created successfully', plan));
   } catch (error) {
     res.status(500).json(errorResponse(500, 'Failed to create plan', error.message));
   }
 };
 
-// Get all plans 
-
+// Get all plans
 module.exports.getAllPlans = async (req, res) => {
   try {
     const plans = await PlanModel.find();
@@ -30,9 +25,7 @@ module.exports.getAllPlans = async (req, res) => {
 module.exports.getPlanById = async (req, res) => {
   try {
     const plan = await PlanModel.findById(req.params.id);
-    if (!plan) {
-      res.status(404).json(errorResponse(404, 'Plan not found'));
-    }
+    if (!plan) return res.status(404).json(errorResponse(404, 'Plan not found'));
     res.status(200).json(successResponse(200, 'Plan fetched successfully', plan));
   } catch (error) {
     res.status(500).json(errorResponse(500, 'Error fetching plan', error.message));
@@ -43,9 +36,7 @@ module.exports.getPlanById = async (req, res) => {
 module.exports.updatePlan = async (req, res) => {
   try {
     const plan = await PlanModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!plan) {
-      res.status(404).json(errorResponse(404, 'Plan not found for update'));
-    }
+    if (!plan) return res.status(404).json(errorResponse(404, 'Plan not found for update'));
     res.status(200).json(successResponse(200, 'Plan updated successfully', plan));
   } catch (error) {
     res.status(500).json(errorResponse(500, 'Failed to update plan', error.message));
@@ -56,9 +47,7 @@ module.exports.updatePlan = async (req, res) => {
 module.exports.deletePlan = async (req, res) => {
   try {
     const plan = await PlanModel.findByIdAndDelete(req.params.id);
-    if (!plan) {
-      res.status(404).json(errorResponse(404, 'Plan not found for deletion'));
-    }
+    if (!plan) return res.status(404).json(errorResponse(404, 'Plan not found for deletion'));
     res.status(200).json(successResponse(200, 'Plan deleted successfully'));
   } catch (error) {
     res.status(500).json(errorResponse(500, 'Failed to delete plan', error.message));

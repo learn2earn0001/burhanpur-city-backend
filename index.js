@@ -12,8 +12,8 @@ const categoryRoutes = require("./src/routes/CategoryRouter");
 const subcategoryRoutes = require("./src/routes/SubCategoryRouter");
 const planRoutes = require("./src/routes/PlanRouter");
 const jobRoutes = require("./src/routes/JobRouter");
-
-// const advertisementRoutes = require('./src/routes/advertisementRoutes');
+const advertPlanRoutes = require('./src/routes/AdvertPlanRoutes');
+const advertisementRoutes = require('./src/routes/advertiseRoutes');
 
 dotenv.config();
 const app = express();
@@ -30,8 +30,9 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/subcategory", subcategoryRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/plan", planRoutes);
+app.use('/api/advert-plans', advertPlanRoutes);
 // app.post("/api/plan/Webhook", express.raw({ type: 'application/json' }), planRoutes);
-// app.use('/api/advertisements', advertisementRoutes);
+app.use('/api/advertisements', advertisementRoutes);
 
 app.use((err, req, res, next) => {
   console.error("Error:", err.stack);
