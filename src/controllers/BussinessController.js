@@ -22,13 +22,9 @@ module.exports.createBussiness = async (req, res) => {
       subCategory: data.subCategory,
     });
     if (existingBusiness) {
-      return res.status(409).json(errorResponse(409, "Business already exists in this subCategory", existingBusiness));
-    }
-
-    // 3. Fetch user & plan
-    const user = await UserModel.findById(userId).populate("planId");
-    if (!user || !user.planId) {
-      return res.status(403).json(errorResponse(403, "User plan not found"));
+      return res.status(404).json(
+        errorResponse(404, "Business already exists in this subCategory", existingBusiness)
+      );
     }
 
     const plan = user.planId;
@@ -60,7 +56,9 @@ module.exports.createBussiness = async (req, res) => {
       { path: "subCategory", select: "id name" },
     ]);
 
-    return res.status(201).json(successResponse(201, "Business added successfully", newBusiness));
+    return res.status(200).json(
+      successResponse(200, "Business added successfully", newBusiness)
+    );
 
   } catch (error) {
     return res.status(500).json(errorResponse(500, "Something went wrong", error.message));

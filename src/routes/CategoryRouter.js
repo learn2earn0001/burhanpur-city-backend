@@ -1,5 +1,5 @@
 const express = require("express");
-const authenticateion = require("../middleware/authenticateion");
+const authentication = require("../middleware/authentication");
 
 const categoryRoutes = express.Router();
 const {

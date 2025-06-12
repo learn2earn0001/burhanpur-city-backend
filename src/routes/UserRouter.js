@@ -1,14 +1,8 @@
-const express = require("express");
-const authenticateion = require("../middleware/authenticateion");
 
-const {
-  createUser,
-  getAllUser,
-  updateUer,
-  deleteUser,
-  adminLogin,
-  getOneUser,
-} = require("../controllers/UserController");
+const express = require ("express");
+const authentication = require ("../middleware/authentication");
+const checkRole = require("../middleware/authorization");
+const { createUser , getAllUser , updateUer , deleteUser , adminLogin , getOneUser } = require ("../controllers/UserController");
 
 const {
   createPlanOrder,
@@ -18,14 +12,16 @@ const {
 
 const userRouter = express.Router();
 
-userRouter.post("/createUser", authenticateion, createUser);
-userRouter.get("/userDetails", authenticateion, getAllUser);
-userRouter.put("/updatedUser/:id", updateUer);
-userRouter.delete("/deleteUser/:id", deleteUser);
-userRouter.post("/adminLogin", authenticateion, adminLogin);
-userRouter.get("/me", authenticateion, getOneUser);
+
 
 userRouter.post("/createPlanOrder", authenticate, createPlanOrder);
 userRouter.post("/activate-user-webhook", activatePlanWebhook);
+userRouter.post("/createUser",createUser);
+userRouter.get("/userDetails",authentication,checkRole("admin"),getAllUser);
+userRouter.put("/updatedUser/:id",updateUer);
+userRouter.delete("/deleteUser/:id",deleteUser);
+userRouter.post("/login",adminLogin);
+userRouter.get("/me",authentication,getOneUser); 
 
-module.exports = userRouter;
+module.exports = userRouter ;
+
