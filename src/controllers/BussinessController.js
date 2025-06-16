@@ -98,3 +98,26 @@ module.exports.deletedBuss = async (req, res) => {
     res.status(500).json(errorResponse(500, "Invalid Credentials"));
   }
 };
+
+
+// controllers/bussiness.controller.js
+module.exports.getWhatsappLink = async (req, res) => {
+  try {
+    const business = await BussinessModel.findById(req.params.id).populate("User");
+    if (!business) {
+      return res.status(404).json(errorResponse(404, "Business not found"));
+    }
+
+    if (!business.phone) {
+      return res.status(400).json(errorResponse(400, "No WhatsApp number available for this business"));
+    }
+
+    const phone = business.phone.replace(/\D/g, ""); // sanitize number
+    const defaultMessage = encodeURIComponent(`Hi, I'm interested in your business: ${business.name}`);
+    const whatsappLink = `https://wa.me/${phone}?text=${defaultMessage}`;
+
+    return res.status(200).json(successResponse(200, "WhatsApp link generated", { whatsappLink }));
+  } catch (error) {
+    return res.status(500).json(errorResponse(500, "Failed to generate WhatsApp link", error.message));
+  }
+};
