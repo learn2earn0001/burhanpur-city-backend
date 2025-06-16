@@ -2,7 +2,8 @@
 const express = require ("express");
 const authentication = require("../middleware/authentication");
 const checkRole = require("../middleware/authorization")
-const { createBussiness,getBussiness , updateBussiness ,deletedBuss} = require ("../controllers/BussinessController");
+const { createBussiness,getBussiness , updateBussiness ,deletedBuss,getWhatsappLink}= require ("../controllers/BussinessController")
+
 
 
 const BussinessRouter = express.Router();
@@ -13,5 +14,6 @@ BussinessRouter.post("/createBuss", authenticate, checkUploadLimit, createBussin
 BussinessRouter.get("/getBuss", getBussiness);
 BussinessRouter.put("/updateBuss", updateBussiness);
 BussinessRouter.delete("/deleteBuss", deletedBuss);
+BussinessRouter.get('/whatsapp-link/:id', getWhatsappLink);
 
 module.exports = BussinessRouter;
